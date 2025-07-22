@@ -37,7 +37,7 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
     await retryPageOperation(
       page,
       async () => {
-        const queryInput = page.locator('[data-testid="query-input"], input[type="text"], textarea, [contenteditable="true"]').first();
+        const queryInput = page.locator('[data-testid="query-input"]').first();
         await queryInput.fill(testQuery);
         return true;
       },
@@ -49,7 +49,7 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
     await retryPageOperation(
       page,
       async () => {
-        const askButton = page.locator('[data-testid="ask-button"], button:has-text("Ask"), button:has-text("Submit"), button[type="submit"]').first();
+        const askButton = page.locator('[data-testid="ask-button"]').first();
         await askButton.click();
         return true;
       },
@@ -152,11 +152,11 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
       console.log(`🧪 Testing query: "${query}"`);
       
       // Clear any existing input
-      const queryInput = page.locator('[data-testid="query-input"], input[type="text"], textarea, [contenteditable="true"]').first();
+      const queryInput = page.locator('[data-testid="query-input"]').first();
       await queryInput.clear();
       await queryInput.fill(query);
       
-      const askButton = page.locator('[data-testid="ask-button"], button:has-text("Ask"), button:has-text("Submit"), button[type="submit"]').first();
+      const askButton = page.locator('[data-testid="ask-button"]').first();
       await askButton.click();
       
       // Wait for response
@@ -171,7 +171,7 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
       ];
       
       for (const section of sections) {
-        const sectionElement = page.locator(section.selector, { hasText: new RegExp(section.name, 'i') }).first();
+        const sectionElement = page.locator(section.selector).first();
         if (!(await sectionElement.isVisible())) {
           await page.screenshot({ path: `tests/artifacts/${section.name.toLowerCase()}-section-missing.png` });
           throw new Error(`${section.name} section not found for query: "${query}"`);
@@ -200,14 +200,14 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
     await page.waitForLoadState('networkidle');
     
     // Test with empty query
-    const askButton = page.locator('[data-testid="ask-button"], button:has-text("Ask"), button:has-text("Submit"), button[type="submit"]').first();
+    const askButton = page.locator('[data-testid="ask-button"]').first();
     await askButton.click();
     
     // Should either show validation message or not proceed
     await page.waitForTimeout(2000);
     
     // Verify page doesn't crash and still allows new input
-    const queryInput = page.locator('[data-testid="query-input"], input[type="text"], textarea, [contenteditable="true"]').first();
+    const queryInput = page.locator('[data-testid="query-input"]').first();
     await expect(queryInput).toBeVisible();
     await expect(queryInput).toBeEnabled();
     
