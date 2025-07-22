@@ -1,0 +1,24 @@
+{
+  "name": "thinkpal-ui-tests",
+  "version": "1.0.0",
+  "description": "Playwright UI tests for ThinkPal Decision Coach",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui-e2e": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && npx playwright test tests/decision-ui.spec.ts --reporter=html,json\"",
+    "install-browsers": "playwright install",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "concurrently": "^8.2.0",
+    "wait-on": "^7.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
