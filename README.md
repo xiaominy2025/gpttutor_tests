@@ -165,3 +165,4 @@ npm run report
 ```
 
 This will open a detailed report showing test results, screenshots, and videos. 
+<!-- Test CI trigger -->
