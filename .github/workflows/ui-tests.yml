@@ -20,6 +20,37 @@ jobs:
           repository: xiaominy2025/gpttutor-frontend
           path: gpttutor-frontend
 
+      - name: Checkout backend repo
+        uses: actions/checkout@v4
+        with:
+          repository: xiaominy2025/GPTtutor-Decision
+          path: GPTtutor-Decision
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install backend dependencies
+        run: |
+          cd GPTtutor-Decision
+          pip install -r requirements.txt
+
+      - name: Start backend server
+        run: |
+          cd GPTtutor-Decision
+          nohup python app.py > ../backend.log 2>&1 &
+          cd ..
+          # Wait for backend to be ready (adjust port if needed)
+          for i in {1..30}; do
+            if curl -s http://127.0.0.1:5000/ > /dev/null; then
+              echo "[SUCCESS] Backend is ready!"
+              break
+            fi
+            echo "[INFO] Waiting for backend to be ready..."
+            sleep 2
+          done
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
