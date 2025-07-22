@@ -61,7 +61,7 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
     await retryPageOperation(
       page,
       async () => {
-        await page.waitForSelector('[data-testid="response"], .response, .answer, .result', { timeout: 30000 });
+        await page.waitForSelector('[data-testid="response"]', { timeout: 30000 });
         await page.waitForTimeout(3000); // Additional wait for full rendering
         return true;
       },
@@ -98,7 +98,7 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
     
     // Step 9: Additional validation for questions pattern
     console.log('🔍 Validating question patterns...');
-    const questionsSection = page.locator('[data-testid="questions-section"], text=Reflection Prompts, text=Questions, text=Follow-up').first();
+    const questionsSection = page.locator('[data-testid="questions-section"]').first();
     if (await questionsSection.isVisible()) {
       const questionsContent = await questionsSection.locator('..').textContent();
       const questionPattern = /(How|What)\s+[^.!?]*[.!?]/;
@@ -124,7 +124,7 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
     // Save success screenshot
     await page.screenshot({ path: 'tests/artifacts/test-success.png' });
   });
-  
+
   test('should handle different query types', async ({ page }) => {
     console.log('🧪 Testing multiple query types...');
     
@@ -164,10 +164,10 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
       
       // Verify response sections exist with improved selectors
       const sections = [
-        { name: 'Strategic', selector: '[data-testid="strategic-section"], text=Strategic' },
-        { name: 'Story', selector: '[data-testid="story-section"], text=Story' },
-        { name: 'Question', selector: '[data-testid="questions-section"], text=Question' },
-        { name: 'Concept', selector: '[data-testid="concepts-section"], text=Concept' }
+        { name: 'Strategic', selector: '[data-testid="strategic-section"]' },
+        { name: 'Story', selector: '[data-testid="story-section"]' },
+        { name: 'Question', selector: '[data-testid="questions-section"]' },
+        { name: 'Concept', selector: '[data-testid="concepts-section"]' }
       ];
       
       for (const section of sections) {
@@ -181,7 +181,7 @@ test.describe('ThinkPal Decision Coach UI Tests', () => {
       console.log(`✅ Query "${query}" processed successfully`);
     }
   });
-  
+
   test('should handle error states gracefully', async ({ page }) => {
     console.log('🧪 Testing error state handling...');
     
