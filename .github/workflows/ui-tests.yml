@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout test repo
         uses: actions/checkout@v4
 
       - name: Checkout frontend repo
@@ -45,12 +45,14 @@ jobs:
         with:
           name: test-results
           path: |
-            test-results/
-            playwright-report/
+            test-results
+            playwright-report
           retention-days: 7
 
       - name: Upload screenshots on failure
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-
+          name: failure-screenshots
+          path: test-results/*.png
+          retention-days: 7
