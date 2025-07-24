@@ -21,7 +21,7 @@ export async function checkAppReadiness(page: Page): Promise<ReadinessCheckResul
       const startTime = Date.now();
       
       // Try to make a request to the app
-      const response = await page.request.get('http://localhost:3000');
+      const response = await page.request.get('/');
       const responseTime = Date.now() - startTime;
       
       if (response.status() === 200) {

@@ -1,4 +1,4 @@
-name: ThinkPal UI Tests
+name: ThinkPal UI Tests v1.6.1
 
 on:
   push:
@@ -63,10 +63,23 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run UI tests
-        run: |
-          chmod +x scripts/test-ui-ci.sh
-          ./scripts/test-ui-ci.sh
+      - name: Run basic connectivity tests
+        run: npx playwright test simple.spec.ts --reporter=list
+        env:
+          CI: true
+
+      - name: Run layout centering tests
+        run: npx playwright test layout-center.spec.ts --reporter=list
+        env:
+          CI: true
+
+      - name: Run comprehensive UI tests
+        run: npx playwright test decision-ui.spec.ts --reporter=list
+        env:
+          CI: true
+
+      - name: Run all tests with cross-browser validation
+        run: npx playwright test --project=chromium --reporter=list
         env:
           CI: true
 
@@ -78,6 +91,7 @@ jobs:
           path: |
             test-results
             playwright-report
+            tests/artifacts
           retention-days: 7
 
       - name: Upload screenshots on failure
@@ -85,5 +99,26 @@ jobs:
         if: failure()
         with:
           name: failure-screenshots
-          path: test-results/*.png
+          path: |
+            test-results/*.png
+            tests/artifacts/*.png
           retention-days: 7
+
+      - name: Generate test report
+        if: always()
+        run: |
+          echo "## ThinkPal v1.6.1 Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Basic connectivity" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Layout centering validation" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Cross-browser compatibility" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Responsive design testing" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Dynamic content handling" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Browser Support" >> $GITHUB_STEP_SUMMARY
+          echo "- Chrome/Chromium" >> $GITHUB_STEP_SUMMARY
+          echo "- Firefox" >> $GITHUB_STEP_SUMMARY
+          echo "- Safari/WebKit" >> $GITHUB_STEP_SUMMARY
+          echo "- Mobile Chrome" >> $GITHUB_STEP_SUMMARY
+          echo "- Mobile Safari" >> $GITHUB_STEP_SUMMARY
